@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 
-app = FastAPI()
+from app.routes.startup_event import lifespan
 
 
-@app.get('/')
-def foo():
-    return {'foo': 'bar gagag'}
+app = FastAPI(lifespan=lifespan)
+
+
+@app.get("/")
+async def read_root():
+    return {'foo': 'bar gagaa'}
