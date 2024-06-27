@@ -45,36 +45,46 @@ Python, Web API
 по масштабируемому процессингу - как организовать?
 как сделать надежное свое s3 хранилище?
 если будет желание, сделать минимальную веб версию для тестов
+
 API примерное
+
 POST /images/
+
 REQUEST
+
 {
-	filename: 'hello.jpg', // имя файла для загрузки
-	project_id: 111, // проект, в который грузится фотка
+ filename: 'hello.jpg', // имя файла для загрузки
+ project_id: 111, // проект, в который грузится фотка
 }
+
 RESPONSE
+
 {
    upload_link: '....',
    params: {} // Возможно параметры для POST запроса
 }
-GET /projects/{id}/images
-RESPONSE
-{
-	images: [
-		{
-			image_id: '',
-			state: 'init', // uploaded, processing, done, error
-			project_id: '',
-			versions: {
-				original: '',
-				thumb: '',
-				big_thumb: '',
-				big_1920: '',
-				d2500: ''
-			}
-		}
-	]
-}
-Websockets
-Когда фотка обработана, нужно получать событие по проекту. Клиент подписывается на проект, используя project_id, в момент, когда фотка обрабатывается, отправляется событие с обновлением статуса.
 
+GET /projects/{id}/images
+
+RESPONSE
+
+{
+ images: [
+  {
+   image_id: '',
+   state: 'init', // uploaded, processing, done, error
+   project_id: '',
+   versions: {
+    original: '',
+    thumb: '',
+    big_thumb: '',
+    big_1920: '',
+    d2500: ''
+   }
+  }
+ ]
+}
+
+Websockets
+
+Когда фотка обработана, нужно получать событие по проекту. Клиент подписывается на проект, используя project_id, в момент, когда фотка обрабатывается, отправляется событие с обновлением статуса.
