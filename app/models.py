@@ -5,25 +5,23 @@ class ProjectBase(SQLModel):
     pass
 
 
+class ProjectCreate(ProjectBase):
+    pass
+
+
 class Project(ProjectBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    images: list['Image'] | None = Relationship(back_populates="project")
+    images: list['Image'] = Relationship(
+        back_populates="project", sa_relationship_kwargs={'lazy': 'selectin'})
 
 
 class ProjectPublic(ProjectBase):
     id: int
+    image_count: int = 0
 
 
 class ProjectsPublic(SQLModel):
-    projects: list['ProjectPublic'] | None
-
-
-class ImageBase(SQLModel):
-    file_name: str | None = Field(unique=True, index=True)
-
-
-class ImageCreate(ImageBase):
-    project_id: int
+    projects: list['ProjectPublic']
 
 
 class VersionsBase(SQLModel):
@@ -34,11 +32,32 @@ class VersionsBase(SQLModel):
     d2500: str
 
 
+class VersionsCreate(VersionsBase):
+    pass
+
+
 class Versions(VersionsBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    
-class VersionPublic(VersionsBase):
-    pass
+
+    images_id:  int | None = Field(
+        default=None, foreign_key='images.id', nullable=False)
+    images: 'Image' = Relationship(back_populates='versions')
+
+
+class VersionsPublic(SQLModel):
+    original: str
+    thumb: str
+    big_thumb: str
+    big_1920: str
+    d2500: str
+
+
+class ImageBase(SQLModel):
+    file_name: str = Field(unique=True, index=True)
+
+
+class ImageCreate(ImageBase):
+    project_id: int
 
 
 class Image(ImageBase, table=True):
@@ -49,21 +68,18 @@ class Image(ImageBase, table=True):
         default=None, foreign_key='project.id', nullable=False)
     project: Project | None = Relationship(back_populates="images")
 
-    version_id: int | None = Field(
+    versions_id: int | None = Field(
         default=None, foreign_key='versions.id', nullable=False)
-    versions: Versions | None = Relationship(back_populates="image")
+    versions: Versions | None = Relationship(
+        back_populates="images", sa_relationship_kwargs={'lazy': 'selectin'})
 
 
 class ImagePublic(SQLModel):
     id: int
     state: str
     project_id: int
-    versions: VersionPublic
+    versions: VersionsPublic
 
 
 class ImagesPublic(SQLModel):
     images: list['ImagePublic']
-
-
-class ProjectCreate(ProjectBase):
-    image: Image

@@ -1,21 +1,19 @@
+from typing import Any
+from fastapi import HTTPException
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.models import Image, ImageCreate, ImagesPublic, Project, ProjectCreate, ProjectsPublic
+from app.models import Image, \
+    ImageCreate, \
+    ImagesPublic, \
+    Project, \
+    ProjectCreate, ProjectPublic, \
+    ProjectsPublic, \
+    VersionsCreate
 
 
-async def create_project(*, session: AsyncSession, project_create: ProjectCreate) -> Project:
-    db_obj = Project.model_validate(project_create)
-
-    session.add(db_obj)
-    await session.commit()
-    await session.refresh(db_obj)
-
-    return db_obj
-
-
-async def create_image(*, session: AsyncSession, image: ImageCreate, state: str) -> Image:
-    db_obj = Image.model_validate(image, state=state)
+async def create_project(*, session: AsyncSession) -> Project:
+    db_obj = Project()
 
     session.add(db_obj)
     await session.commit()
@@ -24,13 +22,38 @@ async def create_image(*, session: AsyncSession, image: ImageCreate, state: str)
     return db_obj
 
 
-async def get_projects(*, session: AsyncSession) -> ProjectsPublic:
+async def create_image(*, session: AsyncSession,
+                       image: ImageCreate,
+                       state: str,
+                       version: VersionsCreate
+                       ) -> Image:
+    db_obj = Image.model_validate(image, state=state, version=version)
+
+    session.add(db_obj)
+    await session.commit()
+    await session.refresh(db_obj)
+
+    return db_obj
+
+
+async def get_projects(*, session: AsyncSession) -> Any:
     projects = await session.exec(select(Project))
     return ProjectsPublic(projects=projects)
 
 
-async def get_images(*, session: AsyncSession, proj_id: int) -> ImagesPublic:
-    project = select(Project).where(Project.id == proj_id)
-    images = await session.exec(project)
+async def get_proj_by_id(*, session: AsyncSession, proj_id: int) -> Any:
+    project = (await session.exec(select(Project).where(Project.id == proj_id))).first()
+
+    if not project:
+        return None
+
+    return project
+
+
+async def get_images(*, session: AsyncSession, proj_id: int) -> Any:
+    images = (await session.exec(select(Project).where(Project.id == proj_id))).first().images
+
+    if not images:
+        return None
 
     return ImagesPublic(images=images)
