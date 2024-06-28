@@ -39,8 +39,6 @@ class VersionsCreate(VersionsBase):
 class Versions(VersionsBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
-    images_id:  int | None = Field(
-        default=None, foreign_key='images.id', nullable=False)
     images: 'Image' = Relationship(back_populates='versions')
 
 
@@ -69,7 +67,7 @@ class Image(ImageBase, table=True):
     project: Project | None = Relationship(back_populates="images")
 
     versions_id: int | None = Field(
-        default=None, foreign_key='versions.id', nullable=False)
+        default=None, foreign_key='versions.id')
     versions: Versions | None = Relationship(
         back_populates="images", sa_relationship_kwargs={'lazy': 'selectin'})
 

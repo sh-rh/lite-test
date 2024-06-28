@@ -8,7 +8,7 @@ from app.models import Image, \
     ImagesPublic, \
     Project, \
     ProjectCreate, ProjectPublic, \
-    ProjectsPublic, \
+    ProjectsPublic, Versions, \
     VersionsCreate
 
 
@@ -23,11 +23,13 @@ async def create_project(*, session: AsyncSession) -> Project:
 
 
 async def create_image(*, session: AsyncSession,
-                       image: ImageCreate,
+                       image: Image,
                        state: str,
-                       version: VersionsCreate
+                       versions: Versions
                        ) -> Image:
-    db_obj = Image.model_validate(image, state=state, version=version)
+
+    db_obj = Image.model_validate(
+        image, update={'state': state, 'versions': versions})
 
     session.add(db_obj)
     await session.commit()
@@ -52,8 +54,5 @@ async def get_proj_by_id(*, session: AsyncSession, proj_id: int) -> Any:
 
 async def get_images(*, session: AsyncSession, proj_id: int) -> Any:
     images = (await session.exec(select(Project).where(Project.id == proj_id))).first().images
-
-    if not images:
-        return None
 
     return ImagesPublic(images=images)
