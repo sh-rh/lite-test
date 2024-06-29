@@ -26,8 +26,13 @@ class Settings(BaseSettings):
             path=self.POSTGRES_DB,
         )
 
-    # AWS_SERVER_PUBLIC_KEY: str
-    # AWS_SERVER_SECRET_KEY: str
+    AWS_ACCESS_KEY_ID: str
+    AWS_SECRET_ACCESS_KEY: str
+    AWS_ENDPOIN_URL: str
+    AWS_REGION: str = 'ru-central1'
+    S3_BUCKET: str
+
+    
 
 
 settings = Settings()

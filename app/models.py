@@ -51,7 +51,7 @@ class VersionsPublic(SQLModel):
 
 
 class ImageBase(SQLModel):
-    file_name: str = Field(unique=True, index=True)
+    pass
 
 
 class ImageCreate(ImageBase):

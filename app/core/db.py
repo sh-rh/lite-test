@@ -18,6 +18,5 @@ async def init_db():
 async def get_session() -> AsyncGenerator[Any, Any]:
     async_session = sessionmaker(
         engine, class_=AsyncSession, expire_on_commit=False)
-
     async with async_session() as session:
         yield session
