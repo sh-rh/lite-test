@@ -2,7 +2,7 @@ from io import BytesIO
 from PIL import Image
 
 
-async def image_resize(file_obj: bytes, height: int = None, width: int = None):
+async def image_resize(file_obj: bytes, width: int = None, height: int = None):
     image = Image.open(BytesIO(file_obj))
 
     if height and width:

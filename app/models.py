@@ -2,7 +2,7 @@ from sqlmodel import Field, Relationship, SQLModel
 
 
 class ProjectBase(SQLModel):
-    pass
+    id: int | None = Field(default=None, primary_key=True)
 
 
 class ProjectCreate(ProjectBase):
@@ -10,7 +10,6 @@ class ProjectCreate(ProjectBase):
 
 
 class Project(ProjectBase, table=True):
-    id: int | None = Field(default=None, primary_key=True)
     images: list['Image'] = Relationship(
         back_populates="project", sa_relationship_kwargs={'lazy': 'selectin'})
 

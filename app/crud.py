@@ -12,8 +12,11 @@ from app.models import Image, \
     VersionsCreate
 
 
-async def create_project(*, session: AsyncSession) -> Project:
-    db_obj = Project()
+async def create_project(*, session: AsyncSession, proj_id: int | None = None) -> Project:
+    if proj_id:
+        db_obj = Project(id=proj_id)
+    else:
+        db_obj = Project()
 
     session.add(db_obj)
     await session.commit()

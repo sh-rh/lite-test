@@ -2,15 +2,15 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 
 
-from app.models import Project, ProjectCreate, ProjectPublic, ProjectsPublic, ImagesPublic
-from app.api.deps import AsyncSessionDep
+from app.models import ProjectsPublic, ImagesPublic
+from app.api.deps import AsyncSessionDep, S3ClientDep
 from app import crud
 
 router = APIRouter()
 
 
-@router.get('/', response_model=ProjectsPublic)
-async def read_projects(session: AsyncSessionDep) -> Any:
+@router.get('/')
+async def read_projects(*, s3_client: S3ClientDep, session: AsyncSessionDep) -> Any:
     projects = await crud.get_projects(session=session)
 
     if projects is None:
