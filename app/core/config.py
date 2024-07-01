@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 from pydantic import PostgresDsn, computed_field
 from pydantic_core import MultiHostUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -32,7 +34,8 @@ class Settings(BaseSettings):
     AWS_REGION: str = 'ru-central1'
     S3_BUCKET: str
 
-    
+    PROJECTS_PATH: Path = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),  '/projects')
 
 
 settings = Settings()

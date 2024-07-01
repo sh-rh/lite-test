@@ -23,7 +23,7 @@ async def create_project(*, session: AsyncSession) -> Project:
 
 
 async def create_image(*, session: AsyncSession,
-                       image: Image,
+                       image: ImageCreate,
                        state: str,
                        versions: Versions
                        ) -> Image:

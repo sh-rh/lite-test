@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException
 from app.models import Project, ProjectCreate, ProjectPublic, ProjectsPublic, ImagesPublic
 from app.api.deps import AsyncSessionDep
 from app import crud
+from app.utils import create_project_folder
 
 router = APIRouter()
 
@@ -22,6 +23,7 @@ async def read_projects(session: AsyncSessionDep) -> Any:
 @router.post('/', response_model=ProjectPublic)
 async def create_project(session: AsyncSessionDep) -> Any:
     project = await crud.create_project(session=session)
+    await create_project_folder(project_id=str(project.id))
     return project
 
 

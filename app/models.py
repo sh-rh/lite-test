@@ -17,7 +17,6 @@ class Project(ProjectBase, table=True):
 
 class ProjectPublic(ProjectBase):
     id: int
-    image_count: int = 0
 
 
 class ProjectsPublic(SQLModel):
@@ -51,7 +50,7 @@ class VersionsPublic(SQLModel):
 
 
 class ImageBase(SQLModel):
-    pass
+    filename: str
 
 
 class ImageCreate(ImageBase):
