@@ -24,20 +24,20 @@ async def get_client() -> AsyncGenerator[AioBaseClient, Any, None]:
         yield s3_client
 
 
-async def upload_file(s3_client: AioBaseClient, file_obj: UploadFile) -> Any:
-    object_name = file_obj.filename
+async def upload_file(s3_client: AioBaseClient, file_obj: bytes, project_id: int, filename: str) -> Any:
+    object_name = filename
     try:
         file_upload_response = await s3_client.put_object(
             Bucket=bucket_name,
-            Key=object_name,
-            Body=file_obj.file,
+            Key=f'{str(project_id)}/{object_name}',
+            Body=file_obj,
             StorageClass='COLD',
         )
 
     except ClientError as e:
         return False
 
-    return file_upload_response
+    return f'{settings.AWS_ENDPOIN_URL}/{settings.S3_BUCKET}/{str(project_id)}/{object_name}'
 
 
 async def get_upload_link(s3_client: AioBaseClient, filename: str):
@@ -51,12 +51,11 @@ async def get_upload_link(s3_client: AioBaseClient, filename: str):
         return f'{settings.AWS_ENDPOIN_URL}/{settings.S3_BUCKET}/{filename}'
 
 
-async def get_file(s3_client: AioBaseClient, filename: str, project_id: str):
-    destination_path = os.path.join(settings.PROJECTS_PATH, project_id, filename)
+async def get_file(s3_client: AioBaseClient, filename: str):
     try:
         response = await s3_client.get_object(Bucket=bucket_name, Key=filename)
         data = await response["Body"].read()
-        with open(destination_path, "wb") as file:
-            file.write(data)
+        return data
+
     except ClientError as e:
         return False

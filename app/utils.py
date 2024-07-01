@@ -1,16 +1,15 @@
-import os
-import cv2
-
-from app.core.config import settings
+from io import BytesIO
+from PIL import Image
 
 
-async def create_project_folder(project_id: str):
-    path = os.path.join(settings.PROJECTS_PATH, project_id)
-    if not os.path.exists(path):
-        os.makedirs(path)
-        return True
-    return False
+async def image_resize(file_obj: bytes, height: int = None, width: int = None):
+    image = Image.open(BytesIO(file_obj))
 
+    if height and width:
+        resized = image.copy()
+        resized.thumbnail((width, height))
+        image_bytes = BytesIO()
+        resized.save(image_bytes, format='JPEG')
+        return image_bytes.getvalue()
 
-async def create_versions(source_filename: str) -> dict[str, str]:
-    img = cv2.imread(source_filename)
+    return file_obj

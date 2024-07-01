@@ -28,8 +28,8 @@ MarkupSafe==2.1.5
 mdurl==0.1.2
 multidict==6.0.5
 numpy==2.0.0
-opencv-python==4.10.0.84
 orjson==3.10.5
+pillow==10.4.0
 psycopg-binary==3.1.19
 pydantic==2.7.4
 pydantic-settings==2.3.4
