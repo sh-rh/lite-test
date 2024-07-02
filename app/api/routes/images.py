@@ -1,6 +1,5 @@
 from typing import Annotated, Any
-from aiohttp import ClientError
-from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException
 
 
 from app.core.s3 import get_upload_link, get_file, upload_file
@@ -60,7 +59,7 @@ async def create_image(*, session: AsyncSessionDep,
 
     versions = Versions.model_validate(versions_in)
 
-    state = 'надо сделать'
+    state = 'uploud'
 
     await crud.create_image(session=session, image=image_in, state=state, versions=versions)
 

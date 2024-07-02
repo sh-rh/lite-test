@@ -2,8 +2,6 @@ from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from typing import Any
 from fastapi import FastAPI
-from sqlmodel import Session
-
 from app.core.db import init_db
 from app.api.routes import projects, images
 

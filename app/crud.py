@@ -1,5 +1,4 @@
 from typing import Any
-from fastapi import HTTPException
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -7,9 +6,7 @@ from app.models import Image, \
     ImageCreate, \
     ImagesPublic, \
     Project, \
-    ProjectCreate, ProjectPublic, \
-    ProjectsPublic, Versions, \
-    VersionsCreate
+    ProjectsPublic, Versions
 
 
 async def create_project(*, session: AsyncSession, proj_id: int | None = None) -> Project:

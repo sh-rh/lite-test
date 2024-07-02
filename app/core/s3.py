@@ -3,7 +3,6 @@ from typing import Any
 from collections.abc import AsyncGenerator
 from aiobotocore.session import get_session
 from aiobotocore.client import AioBaseClient
-from fastapi import UploadFile
 from botocore.exceptions import ClientError
 
 
