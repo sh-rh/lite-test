@@ -1,4 +1,23 @@
 # lite-test
+Ваш .env файл должен выглядеть вот так
+```
+POSTGRES_SERVER=localhost
+POSTGRES_PORT=5432
+POSTGRES_DB=db
+POSTGRES_USER=root
+POSTGRES_PASSWORD=q
+
+
+AWS_ACCESS_KEY_ID=YCAJEORQZaeNjxn3VtX1ACRQY
+AWS_SECRET_ACCESS_KEY=YCMkvmSZCK-9sinlUDg7wA62-SndAK66PpSjXAj4
+AWS_ENDPOIN_URL=https://storage.yandexcloud.net
+AWS_REGION = 'ru-central1'
+S3_BUCKET=test2-backet-lite
+```
+после просто запускается docker compose командой:
+```
+docker compose run
+```
 
 Тестовое задание
 Задание желательно выполнить за максимум 3-4 вечера.
