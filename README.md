@@ -28,7 +28,7 @@
 • Websockets
 • Docker
 
-Ваш .env файл должен выглядеть вот так
+- Ваш .env файл должен выглядеть вот так:
 ```
 POSTGRES_SERVER=localhost
 POSTGRES_PORT=5432
@@ -43,7 +43,7 @@ AWS_ENDPOIN_URL=
 AWS_REGION = 'ru-central1'
 S3_BUCKET=
 ```
-после просто запускается docker compose командой:
+- После просто запускается docker compose командой:
 ```
 docker compose run
 ```
