@@ -33,11 +33,16 @@ docker compose run
 Версии фоток:
 
 Original
+
 thumb: 150x120, to_fit
+
 big_thumb: 700x700, to_fit
+
 big_1920, 1920x1080, to_fit
+
 d2500: 2500x2500, to_fit
-to_fit - значит ресайзится по длинной стороне.
+
+to_fit - ресайзится по длинной стороне.
 
 Стэк:
 
