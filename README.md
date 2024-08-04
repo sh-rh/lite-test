@@ -47,7 +47,11 @@ to_fit - ресайзится по длинной стороне.
 Стэк:
 
 Python,  FastAPI
+
 PostgreSQL
+
 YandexCloud как s3-хранилище(возможно будет работать и с другими, но это не точно)
+
 Websockets
+
 Docker
